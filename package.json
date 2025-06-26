@@ -1,0 +1,48 @@
+{
+  "name": "wasa-2025-gui-js",
+  "version": "1.0.0",
+  "description": "WASA 2025 Flight Data GUI - JavaScript Web Application",
+  "main": "index.html",
+  "scripts": {
+    "start": "python -m http.server 8000",
+    "start-node": "npx http-server -p 8000",
+    "start-php": "php -S localhost:8000",
+    "build": "echo 'No build process required for this web application'",
+    "test": "echo 'No tests specified'",
+    "lint": "echo 'No linting configured'"
+  },
+  "keywords": [
+    "wasa",
+    "flight",
+    "data",
+    "gui",
+    "javascript",
+    "web",
+    "real-time",
+    "aviation",
+    "pfd",
+    "maps",
+    "charts"
+  ],
+  "author": "WASA 2025 Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wasa-2025/wasa-2025-gui-js.git"
+  },
+  "bugs": {
+    "url": "https://github.com/wasa-2025/wasa-2025-gui-js/issues"
+  },
+  "homepage": "https://github.com/wasa-2025/wasa-2025-gui-js#readme",
+  "devDependencies": {
+    "http-server": "^14.1.1"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ]
+} 

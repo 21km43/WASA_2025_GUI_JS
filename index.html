@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WASA_2025_GUI_JS</title>
+    
+    <!-- External Libraries -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #f0f0f0;
+            overflow: hidden;
+        }
+
+        .main-container {
+            display: flex;
+            height: 100vh;
+            width: 100vw;
+        }
+
+        /* 左側：地図部分 (40%) */
+        .left-panel {
+            flex: 1.6; /* 2.5から1.6に戻す */
+            display: flex;
+            flex-direction: column;
+            background: #ffffff;
+            border-right: 2px solid #ccc;
+        }
+
+        .map-controls {
+            display: flex;
+            padding: 10px; /* 5pxから10pxに戻す */
+            background: #e8e8e8;
+            border-bottom: 1px solid #ccc;
+            gap: 10px; /* 5pxから10pxに戻す */
+            align-items: center;
+        }
+
+        .map-selector {
+            padding: 5px; /* 3pxから5pxに戻す */
+            font-size: 14px; /* 12pxから14pxに戻す */
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+
+        .control-btn {
+            padding: 8px 12px; /* 4px 8pxから8px 12pxに戻す */
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 12px; /* 10pxから12pxに戻す */
+        }
+
+        .control-btn:hover {
+            background: #45a049;
+        }
+
+        .control-btn.stop {
+            background: #f44336;
+        }
+
+        .control-btn.stop:hover {
+            background: #da190b;
+        }
+
+        .control-btn.reset {
+            background: #ff9800;
+        }
+
+        .control-btn.reset:hover {
+            background: #e68900;
+        }
+
+        .map-container {
+            flex: 1;
+            position: relative;
+            background: #f0f0f0;
+        }
+
+        #map {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* 右側：データ+PFD+グラフ (60%) */
+        .right-panel {
+            flex: 3.4; /* 2.5から3.4に戻す */
+            display: flex;
+            flex-direction: column;
+            background: #ffffff;
+            height: 100vh; /* 明示的に高さを指定 */
+        }
+
+        /* 上部：データ表示+PFD */
+        .upper-section {
+            flex: 0 0 40%; /* 固定高さ40% */
+            display: flex;
+            background: #ffffff;
+            border-bottom: 2px solid #ccc;
+            min-height: 300px; /* 最小高さを設定 */
+            max-height: 400px; /* 最大高さを制限 */
+        }
+
+        /* データ表示部分 */
+        .data-panel {
+            flex: 2.4; /* 3から2.4に変更して80%に縮小 */
+            padding: 10px; /* パディングを削減 */
+            background: #f8f8f8;
+            border-right: 1px solid #ccc;
+            overflow-y: auto; /* スクロール可能にする */
+        }
+
+        .data-row {
+            display: flex;
+            margin-bottom: 6px; /* マージンを削減 */
+            align-items: center;
+            flex-wrap: nowrap; /* 改行を防ぐ */
+            gap: 2px; /* 要素間の隙間を最小限に */
+        }
+
+        .data-label {
+            font-size: 21px; /* 18pxから21pxに拡大 */
+            font-weight: bold;
+            color: #333;
+            margin-right: 2px; /* マージンをさらに削減 */
+            min-width: 55px; /* 幅をさらに削減 */
+            flex-shrink: 0; /* 縮小を防ぐ */
+            white-space: nowrap; /* 改行を防ぐ */
+        }
+
+        .data-value {
+            font-size: 21px; /* 18pxから21pxに拡大 */
+            font-weight: bold;
+            color: #000;
+            margin-right: 12px; /* マージンを削減 */
+            min-width: 65px; /* 幅を削減 */
+            flex-shrink: 0; /* 縮小を防ぐ */
+            white-space: nowrap; /* 改行を防ぐ */
+        }
+
+        /* PFD部分 */
+        .pfd-panel {
+            flex: 2.6; /* 2から2.6に変更して拡大 */
+            background: #505050;
+            position: relative;
+            min-height: 300px; /* 最小高さを設定 */
+        }
+
+        #pfd-canvas {
+            width: 100%;
+            height: 100%;
+            background: #505050;
+        }
+
+        /* 下部：グラフ部分 */
+        .graph-section {
+            flex: 1; /* 残りの高さを使用 */
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr 1fr; /* 3行確保 */
+            gap: 8px; /* ギャップを調整 */
+            padding: 8px; /* パディングを削減 */
+            background: #f0f0f0;
+            height: 0; /* flex: 1で高さを自動計算させる */
+            min-height: 0; /* グリッドの最小高さを0に */
+        }
+
+        .graph-container {
+            background: #ffffff;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            padding: 4px; /* パディングを削減 */
+            position: relative;
+            min-height: 120px; /* 最小高さを設定 */
+            display: flex;
+            flex-direction: column;
+        }
+
+        .graph-title {
+            text-align: center;
+            font-size: 12px; /* フォントサイズを削減 */
+            font-weight: bold;
+            margin-bottom: 4px; /* マージンを削減 */
+            color: #333;
+            flex: 0 0 auto; /* タイトル部分は固定 */
+        }
+
+        .graph-canvas {
+            width: 100%;
+            flex: 1; /* 残りの高さを使用 */
+            min-height: 0; /* 最小高さを0に */
+        }
+
+        /* ローディング画面 */
+        .loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            color: white;
+            font-size: 18px;
+        }
+
+        .loading.hidden {
+            display: none;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #3498db;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* レスポンシブ対応 */
+        @media (max-width: 1200px) {
+            .main-container {
+                flex-direction: column;
+            }
+            .left-panel {
+                flex: 1;
+            }
+            .right-panel {
+                flex: 2;
+            }
+        }
+
+        /* 飛行機マーカーのスタイル */
+        .aircraft-marker {
+            background: none !important;
+            border: none !important;
+            font-size: 24px;
+            line-height: 1;
+            text-align: center;
+            transform-origin: center center;
+        }
+        
+        .aircraft-marker div {
+            transform-origin: center center;
+        }
+        
+        /* 軌跡上の飛行機マーカーのスタイル */
+        .trajectory-plane-marker {
+            background: none !important;
+            border: none !important;
+            font-size: 12px;
+            line-height: 1;
+            text-align: center;
+            opacity: 0.6;
+            transform-origin: center center;
+        }
+        
+        .trajectory-plane-marker div {
+            transform-origin: center center;
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loading" id="loading">
+        <div class="spinner"></div>
+        <span>WASA 2025 GUI を読み込み中...</span>
+    </div>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- 左側：地図パネル -->
+        <div class="left-panel">
+            <!-- 地図コントロール -->
+            <div class="map-controls">
+                <select id="map-selector" class="map-selector">
+                    <option value="fuzigawa">富士川</option>
+                    <option value="ootone">大利根</option>
+                    <option value="okegawa">桶川</option>
+                    <option value="biwako">琵琶湖</option>
+                </select>
+                
+                <button id="trajectory-btn" class="control-btn">軌跡開始</button>
+                <button id="trajectory-stop-btn" class="control-btn stop">軌跡停止</button>
+                <button id="trajectory-reset-btn" class="control-btn reset">軌跡リセット</button>
+                <span id="trajectory-distance" style="margin-left:10px; font-size:14px; color:#0077cc; min-width:120px; display:inline-block;">距離: 0 m</span>
+            </div>
+            
+            <!-- 地図表示 -->
+            <div class="map-container">
+                <div id="map"></div>
+            </div>
+        </div>
+
+        <!-- 右側：データ+PFD+グラフパネル -->
+        <div class="right-panel">
+            <!-- 上部：データ表示+PFD -->
+            <div class="upper-section">
+                <!-- データ表示パネル -->
+                <div class="data-panel">
+                    <!-- 1段目: 日付・時刻 -->
+                    <div class="data-row">
+                        <span class="data-value" id="date-value">-</span>
+                        <span class="data-value" id="time-value">-</span>
+                    </div>
+                    
+                    <!-- 2段目: 緯度・経度 -->
+                    <div class="data-row">
+                        <span class="data-label">緯度:</span>
+                        <span class="data-value" id="latitude-value">-</span>
+                        <span class="data-label">経度:</span>
+                        <span class="data-value" id="longitude-value">-</span>
+                    </div>
+                    
+                    <!-- 3段目: 高度・回転数 -->
+                    <div class="data-row">
+                        <span class="data-label">高度:</span>
+                        <span class="data-value" id="altitude-value">-</span>
+                        <span class="data-label">回転数:</span>
+                        <span class="data-value" id="rpm-value">-</span>
+                    </div>
+                    
+                    <!-- 4段目: 対気・対地 -->
+                    <div class="data-row">
+                        <span class="data-label">対気:</span>
+                        <span class="data-value" id="tacho-value">-</span>
+                        <span class="data-label">対地:</span>
+                        <span class="data-value" id="ground-speed-value">-</span>
+                    </div>
+                    
+                    <!-- 5段目: 海抜・方位・温度 -->
+                    <div class="data-row">
+                        <span class="data-label">海抜:</span>
+                        <span class="data-value" id="gps-altitude-value">-</span>
+                        <span class="data-label">方位:</span>
+                        <span class="data-value" id="gps-course-value">-</span>
+                        <span class="data-label">温度:</span>
+                        <span class="data-value" id="temperature-value">-</span>
+                    </div>
+                    
+                    <!-- 6段目: 水平・トリム -->
+                    <div class="data-row">
+                        <span class="data-label">水平:</span>
+                        <span class="data-value" id="elevator-angle-value">-</span>
+                        <span class="data-label">トリム:</span>
+                        <span class="data-value" id="rudder-trim-value">-</span>
+                    </div>
+                    
+                    <!-- 7段目: 垂直 -->
+                    <div class="data-row">
+                        <span class="data-label">垂直:</span>
+                        <span class="data-value" id="rudder-angle-value">-</span>
+                    </div>
+                    
+                    <!-- 8段目: roll, pitch, yaw -->
+                    <div class="data-row">
+                        <span class="data-label">roll:</span>
+                        <span class="data-value" id="roll-value">-</span>
+                        <span class="data-label">pitch:</span>
+                        <span class="data-value" id="pitch-value">-</span>
+                        <span class="data-label">yaw:</span>
+                        <span class="data-value" id="yaw-value">-</span>
+                    </div>
+                </div>
+                
+                <!-- PFDパネル -->
+                <div class="pfd-panel">
+                    <canvas id="pfd-canvas"></canvas>
+                </div>
+            </div>
+            
+            <!-- 下部：グラフセクション -->
+            <div class="graph-section">
+                <!-- 高度グラフ -->
+                <div class="graph-container">
+                    <div class="graph-title">高度</div>
+                    <canvas class="graph-canvas" id="altitude-graph"></canvas>
+                </div>
+                
+                <!-- 回転数グラフ -->
+                <div class="graph-container">
+                    <div class="graph-title">回転数</div>
+                    <canvas class="graph-canvas" id="rpm-graph"></canvas>
+                </div>
+                
+                <!-- 対気速度グラフ -->
+                <div class="graph-container">
+                    <div class="graph-title">対気速度</div>
+                    <canvas class="graph-canvas" id="tas-graph"></canvas>
+                </div>
+                
+                <!-- 対地速度グラフ -->
+                <div class="graph-container">
+                    <div class="graph-title">対地速度</div>
+                    <canvas class="graph-canvas" id="ground-graph"></canvas>
+                </div>
+                
+                <!-- Rollグラフ -->
+                <div class="graph-container">
+                    <div class="graph-title">Roll</div>
+                    <canvas class="graph-canvas" id="roll-graph"></canvas>
+                </div>
+                
+                <!-- Pitchグラフ -->
+                <div class="graph-container">
+                    <div class="graph-title">Pitch</div>
+                    <canvas class="graph-canvas" id="pitch-graph"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Files -->
+    <script src="js/data-manager.js"></script>
+    <script src="js/pfd-widget.js"></script>
+    <script src="js/map-manager.js"></script>
+    <script src="js/graph-manager.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html> 
