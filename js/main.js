@@ -115,6 +115,17 @@ class WASAFlightGUI {
         // 地図マネージャー初期化
         this.mapManager = new WASAMapManager('map');
         
+        // 琵琶湖3点マーカー
+        this.biwakoPoints = [
+            { lat: 35.294230, lon: 136.254344, color: 'red', label: 'P' },
+            { lat: 35.368138, lon: 136.174102, color: 'green', label: 'T' },
+            { lat: 35.274218, lon: 136.136190, color: 'green', label: 'O' }
+        ];
+        // 初期地図がbiwakoならマーカー追加
+        if (this.mapManager.currentMapKey === 'biwako') {
+            this.mapManager.addCustomMarkers(this.biwakoPoints);
+        }
+        
         // 地図表示確認（デバッグ用）
         setTimeout(() => {
             this.mapManager.checkCurrentMapBounds();
@@ -134,6 +145,12 @@ class WASAFlightGUI {
         // イベントリスナー設定
         document.getElementById('map-selector').addEventListener('change', (e) => {
             this.mapManager.changeMap(e.target.value);
+            // biwako選択時のみマーカー追加
+            if (e.target.value === 'biwako') {
+                this.mapManager.addCustomMarkers(this.biwakoPoints);
+            } else {
+                this.mapManager.clearCustomMarkers();
+            }
         });
         
         // 軌跡コントロール

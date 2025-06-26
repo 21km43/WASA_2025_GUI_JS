@@ -36,6 +36,9 @@ class WASAMapManager {
         this.trajectoryLayer = null;
         this.aircraftMarker = null;
         
+        this.customMarkers = [];
+        this.customMarkerData = [];
+        
         this.init();
     }
     
@@ -117,6 +120,11 @@ class WASAMapManager {
         ];
         console.log(`地図境界:`, bounds);
         this.map.fitBounds(bounds, { zoom: 20 });
+        
+        // カスタムマーカー再描画
+        if (this.customMarkerData && this.customMarkerData.length > 0) {
+            this.addCustomMarkers(this.customMarkerData);
+        }
         
         console.log(`地図読み込み完了: ${this.currentMapKey}`);
     }
@@ -313,6 +321,11 @@ class WASAMapManager {
             
             // 軌跡もリセット
             this.resetTrajectory();
+            
+            // カスタムマーカー再描画
+            if (this.customMarkerData && this.customMarkerData.length > 0) {
+                this.addCustomMarkers(this.customMarkerData);
+            }
         }
     }
     
@@ -368,5 +381,33 @@ class WASAMapManager {
                   Math.sin(dLon/2) * Math.sin(dLon/2);
         const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
         return R * c;
+    }
+    
+    // カスタムマーカーを全て削除
+    clearCustomMarkers() {
+        if (this.customMarkers && this.customMarkers.length > 0) {
+            this.customMarkers.forEach(marker => this.map.removeLayer(marker));
+        }
+        this.customMarkers = [];
+    }
+
+    // カスタムマーカーを追加
+    addCustomMarkers(points) {
+        this.clearCustomMarkers();
+        this.customMarkerData = points;
+        if (!this.map) return;
+        points.forEach(point => {
+            const marker = L.circleMarker([point.lat, point.lon], {
+                color: point.color,
+                fillColor: point.color,
+                fillOpacity: 0.8,
+                radius: 8,
+                weight: 2
+            }).addTo(this.map);
+            if (point.label) {
+                marker.bindTooltip(point.label, {permanent: true, direction: 'top', className: 'custom-marker-label'});
+            }
+            this.customMarkers.push(marker);
+        });
     }
 } 
