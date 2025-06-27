@@ -170,7 +170,7 @@ class WASADataManager {
         
         const time = Date.now() / 1000;
         
-        // フジ川の座標範囲でシミュレーション
+        // 富士川の座標範囲でシミュレーション
         const fuzigawa = {
             lat_min: 35.1172,
             lat_max: 35.1247,
