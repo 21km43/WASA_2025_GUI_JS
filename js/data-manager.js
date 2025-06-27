@@ -102,9 +102,6 @@ class WASADataManager {
         
         try {
             const response = await fetch(this.awsApiUrl, {
-                header: {
-                  'Access-Control-Allow-Origin': '*',
-                },
                 method: 'GET',
                 timeout: 5000
             });
