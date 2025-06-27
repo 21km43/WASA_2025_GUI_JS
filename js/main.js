@@ -242,7 +242,7 @@ class WASAFlightGUI {
             this.pfdWidget.updateData(
                 data.roll,           // ロール
                 data.pitch,          // ピッチ
-                data.gpsAltitude,    // 高度
+                data.altitude,       // 高度（海抜高度ではなく普通の高度）
                 data.tacho,          // 対気速度
                 data.gpsCourse,      // 方位
                 0.0,                 // 垂直速度（未実装）
