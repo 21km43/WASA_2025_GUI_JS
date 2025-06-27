@@ -104,7 +104,9 @@ class WASADataManager {
             const response = await fetch(this.awsApiUrl, {
                 mode: "cors",
                 header: {
-                  'Access-Control-Allow-Origin': '*',
+                    "Access-Control-Allow-Origin": "*",
+                    "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+                    "Access-Control-Allow-Headers": "Content-Type, Authorization",
                 },
                 method: 'GET',
                 timeout: 5000
