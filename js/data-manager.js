@@ -108,6 +108,7 @@ class WASADataManager {
             
             if (response.ok) {
                 const data = await response.json();
+                console.log('✅ AWS API接続成功:', new Date().toLocaleTimeString());
                 this.processAWSData(data);
             } else {
                 console.warn('AWS API エラー:', response.status);
@@ -123,6 +124,14 @@ class WASADataManager {
     
     // AWS APIデータ処理
     processAWSData(apiData) {
+        console.log('📊 AWSデータ処理中:', {
+            latitude: apiData.Latitude,
+            longitude: apiData.Longitude,
+            altitude: apiData.GPSAltitude,
+            speed: apiData.GPSSpeed,
+            time: apiData.Time
+        });
+        
         // データ更新
         this.data.latitude = parseFloat(apiData.Latitude || 0);
         this.data.longitude = parseFloat(apiData.Longitude || 0);
@@ -157,6 +166,8 @@ class WASADataManager {
     
     // シミュレーションデータ生成（API接続できない場合）
     fallbackToSimulation() {
+        console.log('🎮 シミュレーションモード:', new Date().toLocaleTimeString());
+        
         const time = Date.now() / 1000;
         
         // フジ川の座標範囲でシミュレーション
