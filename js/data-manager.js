@@ -102,6 +102,7 @@ class WASADataManager {
         
         try {
             const response = await fetch(this.awsApiUrl, {
+                mode: "cors",
                 header: {
                   'Access-Control-Allow-Origin': '*',
                 },
