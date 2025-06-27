@@ -330,18 +330,20 @@
                     <div class="data-row">
                         <span class="data-label">緯度:</span>
                         <span class="data-value" id="latitude-value">-</span>
+                        <span class="data-label"> °</span>
                         <span class="data-label">経度:</span>
                         <span class="data-value" id="longitude-value">-</span>
+                        <span class="data-label"> °</span>
                     </div>
                     
                     <!-- 3段目: 高度・回転数 -->
                     <div class="data-row">
                         <span class="data-label">高度:</span>
                         <span class="data-value" id="altitude-value">-</span>
-                        <span class="data-value"> m</span>
+                        <span class="data-label"> m</span>
                         <span class="data-label">回転数:</span>
                         <span class="data-value" id="rpm-value">-</span>
-                        <span class="data-value"> rpm/min</span>
+                        <span class="data-label"> rpm/min</span>
                     </div>
                     
                     <!-- 4段目: 対気・対地 -->
@@ -407,37 +409,37 @@
             <div class="graph-section">
                 <!-- 高度グラフ -->
                 <div class="graph-container">
-                    <div class="graph-title">高度</div>
+                    <div class="graph-title">高度（m）</div>
                     <canvas class="graph-canvas" id="altitude-graph"></canvas>
                 </div>
                 
                 <!-- 回転数グラフ -->
                 <div class="graph-container">
-                    <div class="graph-title">回転数</div>
+                    <div class="graph-title">回転数（rpm/min）</div>
                     <canvas class="graph-canvas" id="rpm-graph"></canvas>
                 </div>
                 
                 <!-- 対気速度グラフ -->
                 <div class="graph-container">
-                    <div class="graph-title">対気速度</div>
+                    <div class="graph-title">対気速度（m/s）</div>
                     <canvas class="graph-canvas" id="tas-graph"></canvas>
                 </div>
                 
                 <!-- 対地速度グラフ -->
                 <div class="graph-container">
-                    <div class="graph-title">対地速度</div>
+                    <div class="graph-title">対地速度（m/s）</div>
                     <canvas class="graph-canvas" id="ground-graph"></canvas>
                 </div>
                 
                 <!-- Rollグラフ -->
                 <div class="graph-container">
-                    <div class="graph-title">Roll</div>
+                    <div class="graph-title">Roll（°）</div>
                     <canvas class="graph-canvas" id="roll-graph"></canvas>
                 </div>
                 
                 <!-- Pitchグラフ -->
                 <div class="graph-container">
-                    <div class="graph-title">Pitch</div>
+                    <div class="graph-title">Pitch（°）</div>
                     <canvas class="graph-canvas" id="pitch-graph"></canvas>
                 </div>
             </div>
