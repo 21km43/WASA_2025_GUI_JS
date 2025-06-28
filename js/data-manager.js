@@ -54,7 +54,7 @@ class WASADataManager {
         this.onError = null;
         
         // AWS API URL
-        this.awsApiUrl = "https://62u95gbc60.execute-api.us-east-1.amazonaws.com/test/items/hpa/latest";
+        this.awsApiUrl = "http://192.168.1.1/";
         
         // リクエスト状態
         this.isUpdating = false;

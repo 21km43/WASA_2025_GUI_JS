@@ -23,6 +23,12 @@ A modern web-based flight data display application built with JavaScript, featur
 ### Local Web Server (Recommended)
 For the best experience, serve the files through a local web server:
 
+If you run on local server, please run this command (setup tile server).
+
+```bash
+docker run -d -p 3000:3000 ghcr.io/kanahiro/chiitiler
+```
+
 ```bash
 # Using Python 3
 python -m http.server 8000

@@ -109,7 +109,7 @@ class WASAMapManager {
         });
         
         // ESRI衛星写真タイルを読み込み
-        L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+        L.tileLayer('http://localhost:3000/tiles/{z}/{x}/{y}.png?margin=100&url=https://tile.openstreetmap.jp/styles/maptiler-toner-en/style.json', {
             attribution: 'Tiles © Esri'
         }).addTo(this.map);
         
