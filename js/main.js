@@ -209,51 +209,45 @@ class WASAFlightGUI {
         }
     }
     
-    // データ表示更新
+    // UI表示更新
     updateDataDisplay(data) {
-        // 日時
+        // 基本データ
         if (this.dataElements.date) this.dataElements.date.textContent = data.date;
         if (this.dataElements.time) this.dataElements.time.textContent = data.time;
+        if (this.dataElements.latitude) this.dataElements.latitude.textContent = data.latitude.toFixed(6);
+        if (this.dataElements.longitude) this.dataElements.longitude.textContent = data.longitude.toFixed(6);
+        if (this.dataElements.altitude) this.dataElements.altitude.textContent = data.altitude.toFixed(1);
+        if (this.dataElements.rpm) this.dataElements.rpm.textContent = data.rpm;
         
-        // 位置
-        if (this.dataElements.latitude) this.dataElements.latitude.textContent = data.latitude.toFixed(4);
-        if (this.dataElements.longitude) this.dataElements.longitude.textContent = data.longitude.toFixed(4);
+        // 速度データ
+        if (this.dataElements.tacho) this.dataElements.tacho.textContent = data.tacho.toFixed(1);
+        if (this.dataElements.groundSpeed) this.dataElements.groundSpeed.textContent = data.groundSpeed.toFixed(1);
+        if (this.dataElements.gpsAltitude) this.dataElements.gpsAltitude.textContent = data.gpsAltitude.toFixed(1);
+        if (this.dataElements.gpsCourse) this.dataElements.gpsCourse.textContent = data.gpsCourse.toFixed(1);
+        if (this.dataElements.temperature) this.dataElements.temperature.textContent = data.temperature.toFixed(1);
         
-        // 高度・回転数
-        if (this.dataElements.altitude) this.dataElements.altitude.textContent = data.altitude.toFixed(2);
-        if (this.dataElements.rpm) this.dataElements.rpm.textContent = data.rpm.toString();
+        // 制御面データ
+        if (this.dataElements.elevatorAngle) this.dataElements.elevatorAngle.textContent = data.elevatorAngle.toFixed(1);
+        if (this.dataElements.rudderTrim) this.dataElements.rudderTrim.textContent = data.rudderTrim.toFixed(1);
+        if (this.dataElements.rudderAngle) this.dataElements.rudderAngle.textContent = data.rudderAngle.toFixed(1);
         
-        // 速度
-        if (this.dataElements.tacho) this.dataElements.tacho.textContent = data.tacho.toFixed(2);
-        if (this.dataElements.groundSpeed) this.dataElements.groundSpeed.textContent = data.groundSpeed.toFixed(2);
-        
-        // GPS・環境
-        if (this.dataElements.gpsAltitude) this.dataElements.gpsAltitude.textContent = data.gpsAltitude.toFixed(2);
-        if (this.dataElements.gpsCourse) this.dataElements.gpsCourse.textContent = data.gpsCourse.toFixed(2);
-        if (this.dataElements.temperature) this.dataElements.temperature.textContent = data.temperature.toFixed(2);
-        
-        // 制御面
-        if (this.dataElements.elevatorAngle) this.dataElements.elevatorAngle.textContent = data.elevatorAngle.toFixed(2);
-        if (this.dataElements.rudderTrim) this.dataElements.rudderTrim.textContent = data.rudderTrim.toFixed(2);
-        if (this.dataElements.rudderAngle) this.dataElements.rudderAngle.textContent = data.rudderAngle.toFixed(2);
-        
-        // 姿勢（調整済み値）
-        if (this.dataElements.roll) this.dataElements.roll.textContent = data.ROLL.toFixed(2);
-        if (this.dataElements.pitch) this.dataElements.pitch.textContent = (-data.PITCH).toFixed(2); // Pythonアプリと同じ符号反転
-        if (this.dataElements.yaw) this.dataElements.yaw.textContent = data.YAW.toFixed(2);
+        // 姿勢データ
+        if (this.dataElements.roll) this.dataElements.roll.textContent = data.roll.toFixed(2);
+        if (this.dataElements.pitch) this.dataElements.pitch.textContent = data.pitch.toFixed(2);
+        if (this.dataElements.yaw) this.dataElements.yaw.textContent = data.yaw.toFixed(2);
     }
     
     // PFD更新
     updatePFD(data) {
         if (this.pfdWidget) {
             this.pfdWidget.updateData(
-                data.ROLL,           // ロール
-                data.PITCH,          // ピッチ
-                data.altitude,       // 高度
+                data.roll,           // ロール
+                data.pitch,          // ピッチ
+                data.altitude,       // 高度（海抜高度ではなく普通の高度）
                 data.tacho,          // 対気速度
                 data.gpsCourse,      // 方位
-                0.0,                 // 垂直速度（TODO: データがあれば追加）
-                0.0                  // 旋回率（TODO: データがあれば追加）
+                0.0,                 // 垂直速度（未実装）
+                0.0                  // 旋回率（未実装）
             );
         }
     }
