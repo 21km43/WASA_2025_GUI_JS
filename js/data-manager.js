@@ -25,16 +25,8 @@ class WASADataManager {
             // 姿勢データ
             roll: 0,
             pitch: 0,
-            yaw: 0,
-            ROLL: 0,            // 調整済みロール
-            PITCH: 0,           // 調整済みピッチ
-            YAW: 0              // 調整済みヨー
+            yaw: 0
         };
-        
-        // メモリ値（姿勢補正用）
-        this.memoryRoll = 0;
-        this.memoryPitch = 0;
-        this.memoryYaw = 0;
         
         // データ履歴（グラフ用）
         this.historyLength = 20; // 20秒分
@@ -141,6 +133,8 @@ class WASADataManager {
         this.data.tacho = parseFloat(apiData.AirSpeed || 0);
         this.data.rpm = parseInt(apiData.PropellerRotationSpeed || 0);
         this.data.yaw = parseFloat(apiData.Yaw_Mad6 || 0);
+        this.data.roll = -parseFloat(apiData.Roll_Mad6 || 0);
+        this.data.pitch = parseFloat(apiData.Pitch_Mad6 || 0);
         this.data.temperature = parseFloat(apiData.Temperature || 0);
         this.data.elevatorAngle = parseFloat(apiData.Elevator || 0);
         this.data.rudderAngle = parseFloat(apiData.Rudder || 0);
@@ -149,11 +143,6 @@ class WASADataManager {
         // 日時データ
         this.data.date = apiData.Date || "-";
         this.data.time = apiData.Time || "-";
-        
-        // 姿勢データ計算（メモリ値による補正）
-        this.data.ROLL = this.data.roll - this.memoryRoll;
-        this.data.PITCH = this.data.pitch - this.memoryPitch;
-        this.data.YAW = this.data.yaw - this.memoryYaw;
         
         // 履歴に追加
         this.addToHistory();
@@ -195,11 +184,6 @@ class WASADataManager {
         this.data.rudderTrim = (Math.random() - 0.5) * 10;
         this.data.yaw = Math.random() * 360;
         
-        // 姿勢データ計算
-        this.data.ROLL = this.data.roll - this.memoryRoll;
-        this.data.PITCH = this.data.pitch - this.memoryPitch;
-        this.data.YAW = this.data.yaw - this.memoryYaw;
-        
         // 時刻
         const now = new Date();
         this.data.date = now.toLocaleDateString('ja-JP');
@@ -220,8 +204,8 @@ class WASADataManager {
         this.rpmHist.push(this.data.rpm);
         this.tasHist.push(this.data.tacho);
         this.groundHist.push(this.data.groundSpeed);
-        this.rollHist.push(this.data.ROLL);
-        this.pitchHist.push(this.data.PITCH);
+        this.rollHist.push(this.data.roll);
+        this.pitchHist.push(this.data.pitch);
         
         // 履歴長制限
         const histories = [
@@ -261,18 +245,6 @@ class WASADataManager {
             roll: [...this.rollHist],
             pitch: [...this.pitchHist]
         };
-    }
-    
-    // メモリ値リセット（姿勢ゼロリセット）
-    resetMemoryValues() {
-        this.memoryRoll = this.data.roll;
-        this.memoryPitch = this.data.pitch;
-        this.memoryYaw = this.data.yaw;
-        console.log('メモリ値リセット:', {
-            roll: this.memoryRoll,
-            pitch: this.memoryPitch,
-            yaw: this.memoryYaw
-        });
     }
     
     // データ履歴クリア

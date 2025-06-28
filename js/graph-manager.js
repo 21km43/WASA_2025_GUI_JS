@@ -9,8 +9,8 @@ class WASAGraphManager {
             { id: 'rpm', title: '回転数', canvasId: 'rpm-graph', yMin: 0, yMax: 200, color: '#ff6384' },
             { id: 'tas', title: '対気速度', canvasId: 'tas-graph', yMin: 0, yMax: 10, color: '#36a2eb' },
             { id: 'ground', title: '対地速度', canvasId: 'ground-graph', yMin: 0, yMax: 10, color: '#ffce56' },
-            { id: 'roll', title: 'Roll', canvasId: 'roll-graph', yMin: -10, yMax: 10, color: '#4bc0c0' },
-            { id: 'pitch', title: 'Pitch', canvasId: 'pitch-graph', yMin: -10, yMax: 10, color: '#9966ff' }
+            { id: 'roll', title: 'roll', canvasId: 'roll-graph', yMin: -10, yMax: 10, color: '#4bc0c0' },
+            { id: 'pitch', title: 'pitch', canvasId: 'pitch-graph', yMin: -10, yMax: 10, color: '#9966ff' }
         ];
         
         this.init();
