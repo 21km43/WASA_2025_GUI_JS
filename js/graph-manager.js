@@ -6,7 +6,7 @@ class WASAGraphManager {
         // グラフ設定（元のPythonアプリと同じ）
         this.graphConfigs = [
             { id: 'altitude', title: '高度', canvasId: 'altitude-graph', yMin: 0, yMax: 10, color: '#3388ff' },
-            { id: 'rpm', title: '回転数', canvasId: 'rpm-graph', yMin: 0, yMax: 200, color: '#ff6384' },
+            { id: 'rpm', title: 'ペラ回転数', canvasId: 'rpm-graph', yMin: 0, yMax: 200, color: '#ff6384' },
             { id: 'tas', title: '対気速度', canvasId: 'tas-graph', yMin: 0, yMax: 10, color: '#36a2eb' },
             { id: 'ground', title: '対地速度', canvasId: 'ground-graph', yMin: 0, yMax: 10, color: '#ffce56' },
             { id: 'roll', title: 'roll', canvasId: 'roll-graph', yMin: -10, yMax: 10, color: '#4bc0c0' },
