@@ -2,10 +2,14 @@ class WASAMapManager {
     constructor(mapId) {
         this.mapId = mapId;
         this.map = null;
-        this.currentMapKey = "fuzigawa";
+        this.currentMapKey = "biwako";
         
         // 地図設定（元のPythonアプリと同じ）
         this.mapSettings = {
+            "biwako": {
+                "lat_min": 35.1187, "lat_max": 35.5204,
+                "lon_min": 135.9861, "lon_max": 136.3499
+            },
             "fuzigawa": {
                 "lat_min": 35.1172, "lat_max": 35.1247,
                 "lon_min": 138.6284, "lon_max": 138.6353
@@ -17,11 +21,7 @@ class WASAMapManager {
             "okegawa": {
                 "lat_min": 35.9716, "lat_max": 35.9814,
                 "lon_min": 139.5194, "lon_max": 139.529
-            },
-            "biwako": {
-                "lat_min": 35.1187, "lat_max": 35.5204,
-                "lon_min": 135.9861, "lon_max": 136.3499
-            }
+            }   
         };
         
         // 軌跡データ
