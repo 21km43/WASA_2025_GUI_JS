@@ -109,7 +109,7 @@ class WASAMapManager {
         });
         
         // ESRI衛星写真タイルを読み込み
-        L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+        L.tileLayer('https://cyberjapandata.gsi.go.jp/xyz/pale/{z}/{x}/{y}.png', {
             attribution: 'Tiles © Esri'
         }).addTo(this.map);
         
