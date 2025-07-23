@@ -7,8 +7,11 @@ class WASAMapManager {
         // 地図設定（元のPythonアプリと同じ）
         this.mapSettings = {
             "biwako": {
-                "lat_min": 35.1187, "lat_max": 35.5204,
-                "lon_min": 135.9861, "lon_max": 136.3499
+                // フル範囲用設定
+                // "lat_min": 35.1187, "lat_max": 35.5204,
+                // "lon_min": 135.9861, "lon_max": 136.3499
+                "lat_min": 35.2191, "lat_max": 35.42,
+                "lon_min": 136.097, "lon_max": 136.279
             },
             "fuzigawa": {
                 "lat_min": 35.1172, "lat_max": 35.1247,
@@ -26,7 +29,7 @@ class WASAMapManager {
         
         // 軌跡データ
         this.trajectory = [];
-        this.trajectoryEnabled = false;
+        this.trajectoryEnabled = true;
         
         // 風データ
         this.windDirection = null;
@@ -186,10 +189,10 @@ class WASAMapManager {
         }).addTo(this.map);
     }
     
-    // 軌跡開始/停止切り替え
-    toggleTrajectory() {
-        this.trajectoryEnabled = !this.trajectoryEnabled;
-        console.log(`軌跡: ${this.trajectoryEnabled ? '開始' : '停止'}`);
+    // 軌跡開始
+    startTrajectory() {
+        this.trajectoryEnabled = true;
+        console.log('軌跡開始');
     }
     
     // 軌跡停止

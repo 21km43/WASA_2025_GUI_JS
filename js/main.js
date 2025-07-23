@@ -156,7 +156,7 @@ class WASAFlightGUI {
         
         // 軌跡コントロール
         document.getElementById('trajectory-btn').addEventListener('click', () => {
-            this.mapManager.toggleTrajectory();
+            this.mapManager.startTrajectory();
         });
         
         document.getElementById('trajectory-stop-btn').addEventListener('click', () => {
