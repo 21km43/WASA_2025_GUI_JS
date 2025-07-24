@@ -117,9 +117,10 @@ class WASAFlightGUI {
         
         // 琵琶湖3点マーカー
         this.biwakoPoints = [
-            { lat: 35.294230, lon: 136.254344, color: 'red', label: 'P' },
-            { lat: 35.368138, lon: 136.174102, color: 'green', label: 'T' },
-            { lat: 35.274218, lon: 136.136190, color: 'green', label: 'O' }
+            { lat: WASAMapManager.points.P.lat, lon: WASAMapManager.points.P.lon, color: 'red', label: 'P' },
+            { lat: WASAMapManager.points.T.lat, lon: WASAMapManager.points.T.lon, color: 'green', label: 'T' },
+            { lat: WASAMapManager.points.O.lat, lon: WASAMapManager.points.O.lon, color: 'green', label: 'O' },
+            { lat: WASAMapManager.points.K.lat, lon: WASAMapManager.points.K.lon, color: 'blue', label: 'K' }
         ];
         // 初期地図がbiwakoならマーカー追加
         if (this.mapManager.currentMapKey === 'biwako') {
