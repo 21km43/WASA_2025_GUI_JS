@@ -2,7 +2,7 @@ class WASAMapManager {
     constructor(mapId) {
         this.mapId = mapId;
         this.map = null;
-        this.currentMapKey = "fuzigawa";
+        this.currentMapKey = "biwako";
         
         // 地図設定（元のPythonアプリと同じ）
         this.mapSettings = {
