@@ -74,7 +74,7 @@ class WASAGraphManager {
                     x: {
                         display: true,
                         type: 'linear',
-                        min: -20,
+                        min: -WASAGraphManager.maxGraphWidth,
                         max: 0,
                         ticks: {
                             stepSize: 2,
@@ -171,7 +171,7 @@ class WASAGraphManager {
         // X軸範囲を動的に調整
         const minX = Math.min(...xData);
         const maxX = Math.max(...xData);
-        chart.options.scales.x.min = Math.min(minX, -20);
+        chart.options.scales.x.min = Math.min(minX, -WASAGraphManager.maxGraphWidth);
         chart.options.scales.x.max = Math.max(maxX, 0);
         
         // チャート更新（アニメーション無効）
@@ -325,3 +325,5 @@ class WASAGraphManager {
         console.log('WASAGraphManager: 破棄されました');
     }
 } 
+
+WASAGraphManager.maxGraphWidth = 20; // グラフの最大幅（秒単位）

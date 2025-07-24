@@ -29,7 +29,7 @@ class WASADataManager {
         };
         
         // データ履歴（グラフ用）
-        this.historyLength = 20; // 20秒分
+        this.historyLength = WASAGraphManager.maxGraphWidth * WASADataManager.samplePerSecond + 1; // グラフ幅×1秒間に取得する回数分
         this.altitudeHist = [];
         this.rpmHist = [];
         this.tasHist = [];       // 対気速度履歴
@@ -60,10 +60,10 @@ class WASADataManager {
     
     // タイマー開始
     startTimers() {
-        // AWS APIタイマー（1秒間隔）
+        // AWS APIタイマー
         this.awsTimer = setInterval(() => {
             this.updateAWSData();
-        }, 1000);
+        }, 1000 / WASADataManager.samplePerSecond);
         
         // アメダスタイマー（1分間隔）
         this.amedasTimer = setInterval(() => {
@@ -232,7 +232,7 @@ class WASADataManager {
     // グラフ用履歴データを取得
     getHistoryData() {
         const N = this.altitudeHist.length;
-        const x = Array.from({length: N}, (_, i) => -(N-1-i) * 1.0);
+        const x = Array.from({length: N}, (_, i) => -(N-1-i) / WASADataManager.samplePerSecond);
         
         return {
             x: x,
@@ -262,3 +262,5 @@ class WASADataManager {
         console.log('WASADataManager: 破棄されました');
     }
 } 
+
+WASADataManager.samplePerSecond = 3; // 1秒間に取得するサンプル数
