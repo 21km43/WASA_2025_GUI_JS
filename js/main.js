@@ -117,7 +117,8 @@ class WASAFlightGUI {
         
         // 琵琶湖3点マーカー
         this.biwakoPoints = [
-            { lat: 35.294230, lon: 136.254344, color: 'blue', label: 'P' },
+            { lat: 35.294230, lon: 136.254344, color: 'red', label: 'P' }, // プラットホーム
+            { lat: 35.297069, lon: 136.243910, color: 'blue', label: 'K' }, // 1km先パイロン
             { lat: 35.368138, lon: 136.174102, color: 'green', label: 'T' },
             { lat: 35.274218, lon: 136.136190, color: 'green', label: 'O' }
         ];
