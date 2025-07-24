@@ -117,10 +117,10 @@ class WASAFlightGUI {
         
         // 琵琶湖3点マーカー
         this.biwakoPoints = [
-            { lat: 35.294230, lon: 136.254344, color: 'red', label: 'P' },
-            { lat: 35.368138, lon: 136.174102, color: 'green', label: 'T' },
-            { lat: 35.274218, lon: 136.136190, color: 'green', label: 'O' },
-            { lat: 35.297069, lon: 136.243910, color: 'blue', label: 'K' }
+            { lat: WASAMapManager.points.P.lat, lon: WASAMapManager.points.P.lon, color: 'red', label: 'P' },
+            { lat: WASAMapManager.points.T.lat, lon: WASAMapManager.points.T.lon, color: 'green', label: 'T' },
+            { lat: WASAMapManager.points.O.lat, lon: WASAMapManager.points.O.lon, color: 'green', label: 'O' },
+            { lat: WASAMapManager.points.K.lat, lon: WASAMapManager.points.K.lon, color: 'blue', label: 'K' }
         ];
         // 初期地図がbiwakoならマーカー追加
         if (this.mapManager.currentMapKey === 'biwako') {
@@ -165,7 +165,6 @@ class WASAFlightGUI {
         
         document.getElementById('trajectory-reset-btn').addEventListener('click', () => {
             this.mapManager.resetTrajectory();
-            this.updateTrajectoryDistance();
         });
         
         // キーボードショートカット
@@ -256,7 +255,7 @@ class WASAFlightGUI {
     updateMap(data) {
         if (this.mapManager && data.latitude !== 0 && data.longitude !== 0) {
             this.mapManager.updatePosition(data.latitude, data.longitude, data.gpsCourse);
-            this.updateTrajectoryDistance();
+            this.updateDistance();
         }
     }
     
@@ -441,10 +440,10 @@ class WASAFlightGUI {
     }
     
     // 軌跡累積距離の表示を更新
-    updateTrajectoryDistance() {
+    updateDistance() {
         const distElem = document.getElementById('trajectory-distance');
         if (!distElem || !this.mapManager) return;
-        const meters = this.mapManager.getTrajectoryDistanceMeters();
+        const meters = WASAMapManager.distance;
         distElem.textContent = `距離: ${meters.toFixed(1)} m`;
     }
 }
