@@ -292,6 +292,7 @@ class WASAMapManager {
     // 軌跡更新
     updateTrajectory(lat, lon) {
         if (!this.trajectoryEnabled) return;
+        if (lat < 0.1 || lon < 0.1) return;
         
         const position = [lat, lon];
         this.trajectory.push(position);
