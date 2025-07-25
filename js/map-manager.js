@@ -390,18 +390,18 @@ class WASAMapManager {
         }
 
         if (WASAMapManager.phase === 2) {
-            WASAMapManager.distance = 21097.5 - distToK;
+            WASAMapManager.distance = (21097.5 - distToK) < 10975 ? 10975 : (21097.5 - distToK);
         }
 
         if (WASAMapManager.phase === 3) {
-            WASAMapManager.distance = 21097.5 + distToK;
+            WASAMapManager.distance = (distFromP <= 1000) ? 21097.5 : (21097.5 + distToK);
         }
 
         if (WASAMapManager.phase === 4) {
             if (!WASAMapManager.reachedGoal && distFromP <= 300) {
                 WASAMapManager.reachedGoal = true;
             }
-            WASAMapManager.distance = WASAMapManager.reachedGoal ? 42195 : 42195 - distFromP;
+            WASAMapManager.distance = WASAMapManager.reachedGoal ? 42195 : ((42195 - distFromP) < 31220 ? 31220 : (42195 - distFromP));
         }
     }
 
