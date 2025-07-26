@@ -264,4 +264,4 @@ class WASADataManager {
     }
 } 
 
-WASADataManager.samplePerSecond = 3; // 1秒間に取得するサンプル数
+WASADataManager.samplePerSecond = 4; // 1秒間に取得するサンプル数
