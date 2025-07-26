@@ -215,7 +215,7 @@ class WASAFlightGUI {
         if (this.dataElements.time) this.dataElements.time.textContent = data.time;
         if (this.dataElements.latitude) this.dataElements.latitude.textContent = data.latitude.toFixed(6);
         if (this.dataElements.longitude) this.dataElements.longitude.textContent = data.longitude.toFixed(6);
-        if (this.dataElements.altitude) this.dataElements.altitude.textContent = data.altitude.toFixed(1);
+        if (this.dataElements.altitude) this.dataElements.altitude.textContent = data.altitude.toFixed(2);
         if (this.dataElements.rpm) this.dataElements.rpm.textContent = data.rpm;
         
         // 速度データ
