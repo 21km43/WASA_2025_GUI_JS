@@ -127,6 +127,7 @@ class WASADataManager {
         // データ更新
         this.data.latitude = parseFloat(apiData.Latitude || 0);
         this.data.longitude = parseFloat(apiData.Longitude || 0);
+        this.data.altitude = parseFloat(apiData.Altitude || 0);
         this.data.gpsAltitude = parseFloat(apiData.GPSAltitude || 0);
         this.data.gpsCourse = parseFloat(apiData.GPSCourse || 0);
         this.data.groundSpeed = parseFloat(apiData.GPSSpeed || 0);
